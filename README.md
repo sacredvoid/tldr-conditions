@@ -50,9 +50,27 @@ Let's be honest: you've never read a Terms & Conditions document in your life. Y
 ## 📸 Screenshots
 
 <div align="center">
-  <img src="https://via.placeholder.com/600x400/4285f4/ffffff?text=TL;DR+Conditions+in+Action" alt="TL;DR Conditions Extension" width="600"/>
-  <p><em>TL;DR Conditions: Making legal documents less terrifying since 2024</em></p>
+  <h3>🔍 Extension in Action</h3>
+  <img src="assets/extension.png" alt="TL;DR Conditions Extension detecting T&C links" width="800"/>
+  <p><em>TL;DR Conditions automatically finds and highlights legal document links</em></p>
+  
+  <br>
+  
+  <h3>📄 AI-Powered Summary</h3>
+  <img src="assets/summary.png" alt="AI-generated summary of Terms & Conditions" width="800"/>
+  <p><em>Get instant, easy-to-understand summaries of what you're actually agreeing to</em></p>
 </div>
+
+### 🎬 Quick Demo
+
+Want to see it in action? Here's what happens when you click that blue "📄 Summarize" button:
+
+1. **Detection**: The extension scans the page for legal document links
+2. **AI Processing**: Sends the document to OpenAI for analysis
+3. **Summary Generation**: Creates a structured, easy-to-read summary
+4. **Display**: Shows you exactly what you're agreeing to in plain English
+
+*No more scrolling through 47 pages of legal jargon just to find out you're selling your soul to a tech company!*
 
 ## 🏗️ Architecture
 

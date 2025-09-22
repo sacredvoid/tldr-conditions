@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        .footer a {
+            color: #4285f4;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Page for Terms Summarize Extension</h1>
+    
+    <div class="content">
+        <p>This is a test page to verify that the Terms Summarize Chrome extension works correctly without blocking the main thread.</p>
+        
+        <p>You should see blue "📄 Summarize" buttons next to the Terms & Conditions links below.</p>
+        
+        <h2>Sample Content</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    
+    <div class="footer">
+        <h3>Legal Documents</h3>
+        <p>Please review our legal documents:</p>
+        <a href="https://www.google.com/policies/terms/">Terms of Service</a>
+        <a href="https://www.google.com/policies/privacy/">Privacy Policy</a>
+        <a href="https://www.google.com/policies/agreement/">User Agreement</a>
+        <a href="https://example.com/legal-notice">Legal Notice</a>
+        <a href="https://example.com/conditions">Terms and Conditions</a>
+        
+        <h3>Other Links (Should NOT have summarize buttons)</h3>
+        <a href="https://example.com/about">About Us</a>
+        <a href="https://example.com/contact">Contact</a>
+        <a href="https://example.com/help">Help Center</a>
+    </div>
+    
+    <script>
+        // Test that the page loads quickly
+        console.log('Page loaded at:', new Date().toISOString());
+        
+        // Simulate some dynamic content loading
+        setTimeout(() => {
+            const dynamicContent = document.createElement('div');
+            dynamicContent.innerHTML = '<p>Dynamic content loaded at: ' + new Date().toISOString() + '</p>';
+            document.body.appendChild(dynamicContent);
+        }, 1000);
+    </script>
+</body>
+</html>

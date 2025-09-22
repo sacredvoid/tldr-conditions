@@ -76,7 +76,15 @@ class TermsSummarizeAPI {
       });
 
       if (!response.ok) {
-        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+        if (response.status === 429) {
+          throw new Error('Rate limit exceeded. Please wait a moment before trying again, or check your API usage limits.');
+        } else if (response.status === 401) {
+          throw new Error('Invalid API key. Please check your API key in the extension settings.');
+        } else if (response.status === 403) {
+          throw new Error('API access forbidden. Please check your API key permissions.');
+        } else {
+          throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+        }
       }
 
       const data = await response.json();
@@ -88,47 +96,111 @@ class TermsSummarizeAPI {
   }
 
   formatSummary(content, linkText, url) {
-    // Format the AI response into a structured summary
+    // Clean and format the AI response
+    const cleanContent = content
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\n\n/g, '</p><p>')
+      .replace(/\n/g, '<br>')
+      .replace(/^/, '<p>')
+      .replace(/$/, '</p>');
+
     return `
-      <h4>📋 ${linkText}</h4>
-      <p><strong>Source:</strong> <a href="${url}" target="_blank">${url}</a></p>
+      <div class="summary-header">
+        <div class="document-icon">📄</div>
+        <div class="document-info">
+          <h3>${linkText}</h3>
+          <p class="source-link">
+            <span class="source-label">Source:</span>
+            <a href="${url}" target="_blank" class="source-url">${url}</a>
+          </p>
+        </div>
+      </div>
       
-      <h4>📝 Summary</h4>
-      <div>${content}</div>
+      <div class="summary-content">
+        <h4 class="section-title">
+          <span class="section-icon">📝</span>
+          Summary
+        </h4>
+        <div class="summary-text">${cleanContent}</div>
+      </div>
       
-      <h4>⚠️ Important Notes</h4>
-      <ul>
-        <li>This is an AI-generated summary and should not replace reading the full document</li>
-        <li>Legal terms may have changed since this summary was generated</li>
-        <li>Consult with a legal professional for important decisions</li>
-      </ul>
+      <div class="summary-footer">
+        <h4 class="section-title">
+          <span class="section-icon">⚠️</span>
+          Important Notes
+        </h4>
+        <div class="notes-list">
+          <div class="note-item">
+            <span class="note-icon">🤖</span>
+            <span class="note-text">This is an AI-generated summary and should not replace reading the full document</span>
+          </div>
+          <div class="note-item">
+            <span class="note-icon">⏰</span>
+            <span class="note-text">Legal terms may have changed since this summary was generated</span>
+          </div>
+          <div class="note-item">
+            <span class="note-icon">⚖️</span>
+            <span class="note-text">Consult with a legal professional for important decisions</span>
+          </div>
+        </div>
+      </div>
     `;
   }
 
   getMockSummary(linkText, url) {
     // Mock summary for demo purposes when API is not available
     return `
-      <h4>📋 ${linkText}</h4>
-      <p><strong>Source:</strong> <a href="${url}" target="_blank">${url}</a></p>
+      <div class="summary-header">
+        <div class="document-icon">📄</div>
+        <div class="document-info">
+          <h3>${linkText}</h3>
+          <p class="source-link">
+            <span class="source-label">Source:</span>
+            <a href="${url}" target="_blank" class="source-url">${url}</a>
+          </p>
+        </div>
+      </div>
       
-      <h4>📝 Summary</h4>
-      <p>This appears to be a ${linkText.toLowerCase()} document. Key points typically include:</p>
+      <div class="summary-content">
+        <h4 class="section-title">
+          <span class="section-icon">📝</span>
+          Summary
+        </h4>
+        <div class="summary-text">
+          <p>This appears to be a <strong>${linkText.toLowerCase()}</strong> document. Key points typically include:</p>
+          
+          <h4 style="color: #1a73e8; margin: 16px 0 8px 0; font-size: 14px;">🔍 What This Document Covers</h4>
+          <ul style="margin: 8px 0; padding-left: 20px;">
+            <li>User rights and responsibilities</li>
+            <li>Data collection and privacy practices</li>
+            <li>Service limitations and availability</li>
+            <li>Dispute resolution procedures</li>
+            <li>Contact information for legal matters</li>
+          </ul>
+        </div>
+      </div>
       
-      <h4>🔍 What This Document Covers</h4>
-      <ul>
-        <li>User rights and responsibilities</li>
-        <li>Data collection and privacy practices</li>
-        <li>Service limitations and availability</li>
-        <li>Dispute resolution procedures</li>
-        <li>Contact information for legal matters</li>
-      </ul>
-      
-      <h4>⚠️ Important Notes</h4>
-      <ul>
-        <li>This is a demo summary - configure your API key for real analysis</li>
-        <li>Always read the full document for complete understanding</li>
-        <li>Legal terms may change over time</li>
-      </ul>
+      <div class="summary-footer">
+        <h4 class="section-title">
+          <span class="section-icon">⚠️</span>
+          Important Notes
+        </h4>
+        <div class="notes-list">
+          <div class="note-item">
+            <span class="note-icon">🤖</span>
+            <span class="note-text">This is a demo summary - configure your API key for real analysis</span>
+          </div>
+          <div class="note-item">
+            <span class="note-icon">📖</span>
+            <span class="note-text">Always read the full document for complete understanding</span>
+          </div>
+          <div class="note-item">
+            <span class="note-icon">⏰</span>
+            <span class="note-text">Legal terms may change over time</span>
+          </div>
+        </div>
+      </div>
     `;
   }
 

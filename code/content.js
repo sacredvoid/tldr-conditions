@@ -13,7 +13,7 @@ class PerformanceMonitor {
 
   startScan() {
     this.metrics.scanStart = performance.now();
-    console.log('Terms Summarize: Starting page scan...');
+    console.log('TL;DR Conditions: Starting page scan...');
   }
 
   endScan(linksFound, buttonsCreated) {
@@ -23,12 +23,12 @@ class PerformanceMonitor {
     
     const scanTime = this.metrics.scanEnd - this.metrics.scanStart;
     
-    console.log(`Terms Summarize: Scan completed in ${scanTime.toFixed(2)}ms`);
-    console.log(`Terms Summarize: Found ${linksFound} links, created ${buttonsCreated} buttons`);
+    console.log(`TL;DR Conditions: Scan completed in ${scanTime.toFixed(2)}ms`);
+    console.log(`TL;DR Conditions: Found ${linksFound} links, created ${buttonsCreated} buttons`);
     
     // Warn if scan took too long
     if (scanTime > 100) {
-      console.warn('Terms Summarize: Slow scan detected! Consider optimizing.');
+      console.warn('TL;DR Conditions: Slow scan detected! Consider optimizing.');
     }
   }
 }

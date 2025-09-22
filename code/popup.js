@@ -169,7 +169,15 @@ class SettingsManager {
       if (response.ok) {
         this.showStatus('✅ API connection successful!', 'success');
       } else {
-        this.showStatus(`❌ API test failed: ${response.status} ${response.statusText}`, 'error');
+        let errorMessage = `❌ API test failed: ${response.status} ${response.statusText}`;
+        if (response.status === 429) {
+          errorMessage = '❌ Rate limit exceeded. Please wait a moment and try again.';
+        } else if (response.status === 401) {
+          errorMessage = '❌ Invalid API key. Please check your API key.';
+        } else if (response.status === 403) {
+          errorMessage = '❌ API access forbidden. Please check your API key permissions.';
+        }
+        this.showStatus(errorMessage, 'error');
       }
     } catch (error) {
       this.showStatus(`❌ API test failed: ${error.message}`, 'error');
@@ -196,7 +204,7 @@ class SettingsManager {
 
   showHelp() {
     const helpContent = `
-Terms Summarize - Help
+TL;DR Conditions - Help
 
 Getting Started:
 1. Get an API key from OpenAI (openai.com) or your preferred AI provider

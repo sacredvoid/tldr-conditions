@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Terms Summarize",
+  "name": "TL;DR Conditions",
   "version": "1.0.0",
-  "description": "Detect and summarize Terms & Conditions, Privacy Policies, and similar agreements",
+  "description": "Because who really reads them? AI-powered summaries of Terms & Conditions and Privacy Policies",
   "permissions": [
     "activeTab",
     "storage"
@@ -24,7 +24,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Terms Summarize Settings"
+    "default_title": "TL;DR Conditions Settings"
   },
   "icons": {
     "16": "icons/icon16.png",

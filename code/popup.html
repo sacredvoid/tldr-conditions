@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms Summarize Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 400px;
+      min-height: 500px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+    }
+
+    .container {
+      background: white;
+      margin: 0;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 24px;
+      flex: 1;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #4285f4;
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+    }
+
+    .form-group small {
+      display: block;
+      margin-top: 6px;
+      color: #666;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .api-provider {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .provider-option {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: white;
+    }
+
+    .provider-option.selected {
+      border-color: #4285f4;
+      background: #f8f9ff;
+    }
+
+    .provider-option:hover {
+      border-color: #4285f4;
+    }
+
+    .provider-option input[type="radio"] {
+      display: none;
+    }
+
+    .provider-option .name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .provider-option .description {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #4285f4;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #3367d6;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #666;
+      border: 1px solid #e1e5e9;
+    }
+
+    .btn-secondary:hover {
+      background: #e9ecef;
+    }
+
+    .status {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+
+    .footer {
+      padding: 16px 24px;
+      background: #f8f9fa;
+      border-top: 1px solid #e1e5e9;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .footer a {
+      color: #4285f4;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #4285f4;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📄 Terms Summarize</h1>
+      <p>Configure your AI API settings</p>
+    </div>
+
+    <div class="content">
+      <div id="status" class="status hidden"></div>
+
+      <div class="form-group">
+        <label>API Provider</label>
+        <div class="api-provider">
+          <div class="provider-option" data-provider="openai">
+            <input type="radio" name="provider" value="openai" id="openai" checked>
+            <div class="name">OpenAI</div>
+            <div class="description">GPT-3.5/4</div>
+          </div>
+          <div class="provider-option" data-provider="custom">
+            <input type="radio" name="provider" value="custom" id="custom">
+            <div class="name">Custom</div>
+            <div class="description">Your API</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="apiKey">API Key</label>
+        <input type="password" id="apiKey" placeholder="Enter your API key">
+        <small>Your API key is stored locally and never shared.</small>
+      </div>
+
+      <div class="form-group" id="apiUrlGroup">
+        <label for="apiUrl">API URL</label>
+        <input type="url" id="apiUrl" placeholder="https://api.openai.com/v1/chat/completions">
+        <small>Custom API endpoint for your backend service.</small>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" id="saveBtn">
+          <span class="btn-text">Save Settings</span>
+        </button>
+        <button class="btn btn-secondary" id="testBtn">Test API</button>
+      </div>
+
+      <div class="form-group" style="margin-top: 24px;">
+        <h4 style="margin-bottom: 12px; color: #333;">How to get started:</h4>
+        <ol style="font-size: 13px; line-height: 1.6; color: #666; padding-left: 20px;">
+          <li>Get an API key from OpenAI or your preferred provider</li>
+          <li>Paste the key above and save settings</li>
+          <li>Visit any website with Terms & Conditions</li>
+          <li>Look for the blue "📄 Summarize" buttons next to T&C links</li>
+          <li>Click to get instant AI-powered summaries!</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Need help? <a href="#" id="helpLink">View Documentation</a></p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
